@@ -1,0 +1,11 @@
+.movieList-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 750px;
+  padding: 20px;
+
+  .search-field {
+    margin-bottom:10px;
+  }
+}
