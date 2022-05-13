@@ -1,0 +1,12 @@
+.auth-page {
+    width: 100vw;
+    height: 100vh;
+    background-color:#39b0e4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &-wrapp {
+        display: flex;
+        flex-direction: row;
+    }
+}
