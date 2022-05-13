@@ -1,7 +1,8 @@
 import React, { FC, ReactElement } from 'react';
 import { useForm } from "react-hook-form";
-import { Button, Link, Paper, TextField } from '@mui/material';
+import { Button, Paper, TextField } from '@mui/material';
 import "./LoginForm.scss"
+import { Link } from 'react-router-dom';
 
 type LoginForm = {
   email: string;
@@ -26,7 +27,7 @@ const LoginForm: FC<{}> = (): ReactElement => {
         error={!!errors.password}
       />
       <Button variant="contained" color="info">Sing IN</Button>
-      <Link>Sing up</Link>
+      <Link to={'/register'}>Sing up</Link>
     </Paper>
   )
 }

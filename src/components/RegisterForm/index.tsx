@@ -2,8 +2,9 @@ import React, { FC, ReactElement } from 'react';
 import { useForm } from "react-hook-form";
 import { ImportExport, Add } from '@mui/icons-material';
 import SendIcon from '@mui/icons-material/Send';
-import { Box, Button, Chip, FormControl, IconButton, InputLabel, Link, MenuItem, Paper, Select, Stack, TextField } from '@mui/material';
+import {Button,Paper,TextField } from '@mui/material';
 import "./RegisterForm.scss"
+import { Link } from 'react-router-dom';
 
 type MovieFormProps = {
   submitHandle: Function,
@@ -44,7 +45,7 @@ const RegisterForm: FC<{}> = (): ReactElement => {
         error={!!errors.name}
       />
       <Button variant="contained" color="info">Sing UP</Button>
-      <Link>Sing in</Link>
+      <Link to={'/login'}>Sing ip</Link>
     </Paper>
   )
 }

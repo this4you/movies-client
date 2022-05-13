@@ -2,35 +2,26 @@ import React, { useEffect, useState } from 'react';
 import './App.scss';
 import {
   Routes,
-  Route
+  Route,
+  Navigate
 } from "react-router-dom";
 import { useAppDispatch } from './utils/hooks';
 import { moviesActios } from './redux/actions';
 import { AuthPage, HomePage } from './pages';
+import { LoginForm, RegisterForm } from './components';
 
 
 function App() {
   return (
     <Routes>
       <Route path="/home" element={<HomePage />} />
-      <Route path="/" element={<AuthPage />} />
-      <Route
-        path="*"
-        element={
-          <main style={{ padding: "1rem" }}>
-            <p>There's nothing here!</p>
-          </main>
-        }
-      />
+      <Route path="/" element={<AuthPage />}>
+        <Route index element={<LoginForm />} />
+        <Route path="login" element={<LoginForm />} />
+        <Route path="register" element={<RegisterForm />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Route>
     </Routes>
-    // <div className="wrapp">
-    //   <div className="form-wrapp">
-    //     <MovieForm submitHandle={() => { }} cinemaFormats={["VHS", "DVD", "Blu-Ray"]} />
-    //   </div>
-    //   <div className="list-wrapp">
-    //     <MovieList />
-    //   </div>
-    // </div>
   );
 }
 
