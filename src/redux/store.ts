@@ -1,6 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import logger from 'redux-logger';
-import reducer from './reducers';
+import { moviesReducer } from './movieSlice';
+import { userReducer } from './userSlice';
+
+
+const reducer = {
+    movies: moviesReducer,
+    user: userReducer
+};
 
 const store = configureStore({
     reducer,

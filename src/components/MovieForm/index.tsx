@@ -4,28 +4,26 @@ import { ImportExport, Add } from '@mui/icons-material';
 import SendIcon from '@mui/icons-material/Send';
 import { Box, Button, Chip, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Stack, TextField } from '@mui/material';
 import "./MovieForm.scss"
+import { MovieModel } from '../../models';
 
 type MovieFormProps = {
   submitHandle: Function,
   cinemaFormats: Array<string>
 }
 
-type FormData = {
-  name: string;
-  year: Number;
-  format: string;
-};
-
 
 const MovieForm: FC<MovieFormProps> = ({ submitHandle, cinemaFormats }): ReactElement => {
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+  const { register, handleSubmit, formState: { errors } } = useForm<MovieModel>();
 
-  const onSubmit = handleSubmit(data => console.log(data));
+  const onSubmit = handleSubmit(data => {
+      data = actors ? {...data, actors} : data;
+      console.log(data);
+  });
 
   const [actors, setActors] = React.useState<string[]>([]);
   const [actorName, setActorName] = React.useState<string>("");
-  
+
   const addActorHandler = () => {
     if (actorName && !actors.includes(actorName)) {
       setActors([actorName, ...actors]);
@@ -40,9 +38,9 @@ const MovieForm: FC<MovieFormProps> = ({ submitHandle, cinemaFormats }): ReactEl
     <div className="fields">
       <form onSubmit={onSubmit}>
 
-        <TextField id="name" name="name" className="form-input" label="Name" variant="outlined"
-          {...register("name", { required: true, maxLength: 20 })}
-          error={!!errors.name}
+        <TextField id="title" name="title" className="form-input" label="Title" variant="outlined"
+          {...register("title", { required: true, maxLength: 20 })}
+          error={!!errors.title}
         />
 
         <TextField type="number" id="year" name="year" className="form-input" label="Year" variant="outlined"
@@ -65,7 +63,7 @@ const MovieForm: FC<MovieFormProps> = ({ submitHandle, cinemaFormats }): ReactEl
 
         <Stack direction="row" alignItems="center" spacing={2}>
           <TextField id="outlined-basic" className="form-input" label="Actor`s name" variant="outlined"
-            value={actorName} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setActorName(event.target.value)}/>
+            value={actorName} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setActorName(event.target.value)} />
           <IconButton onClick={addActorHandler} style={{ marginTop: "-17px" }} aria-label="delete">
             <Add />
           </IconButton>

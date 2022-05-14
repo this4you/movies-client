@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { LoginUserModel, RegisterUserModel } from "../models";
-import { userActions } from "../redux/actions";
+import { userActions } from "../redux/userSlice";
 import { AUTH_LOCAL_STORAGE_TOKEN } from "../utils/axios";
 import { useAppDispatch } from '../hooks';
 
