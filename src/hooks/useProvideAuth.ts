@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { LoginUserModel, RegisterUserModel } from "../models";
 import { userActions } from "../redux/actions";
-import { AUTH_LOCAL_STORAGE_TOKEN } from "./axios";
-import { useAppDispatch } from './hooks';
+import { AUTH_LOCAL_STORAGE_TOKEN } from "../utils/axios";
+import { useAppDispatch } from '../hooks';
 
 export type ProvideAuthModel = {
     session: string;
@@ -14,6 +14,7 @@ const useProvideAuth = (): ProvideAuthModel => {
     const [session, setSession] = useState(localStorage.getItem(AUTH_LOCAL_STORAGE_TOKEN));
     const dispatch = useAppDispatch();
 
+    
     const signUp = (registerData: RegisterUserModel) => {
         return dispatch(
             userActions.register(registerData))
