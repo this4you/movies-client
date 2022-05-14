@@ -24,6 +24,7 @@ const RegisterForm: FC<{}> = (): ReactElement => {
   return (
     <form onSubmit={onSubmit}>
       <Paper elevation={12} className="register-form">
+        <h1>Registration</h1>
         <TextField type={'email'} id="email" name="email" className="form-input" label="Email"
           variant="outlined"
           {...register("email", { required: true, maxLength: 30 })}
@@ -44,7 +45,7 @@ const RegisterForm: FC<{}> = (): ReactElement => {
           error={!!errors.confirmPassword}
         />
         <Button type={'submit'} variant="contained" color="info">Sing UP</Button>
-        <Link to={'/login'}>Sing ip</Link>
+        <Link to={'/login'}>Sign ip</Link>
       </Paper>
     </form>
   )

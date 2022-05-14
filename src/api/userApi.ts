@@ -1,8 +1,9 @@
 import {axios} from "../utils";
-import { RegisterUserModel } from "../models";
+import { LoginUserModel, RegisterUserModel } from "../models";
 
 const userApi = {
-    singUp : (data: RegisterUserModel) => axios.post('users', data)
+    signUp : (data: RegisterUserModel) => axios.post('users', data),
+    signIn : (data: LoginUserModel) => axios.post('sessions', data),
 }
 
 export default userApi;

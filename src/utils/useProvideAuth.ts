@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { RegisterUserModel } from "../models";
+import { LoginUserModel, RegisterUserModel } from "../models";
 import { userActions } from "../redux/actions";
 import { AUTH_LOCAL_STORAGE_TOKEN } from "./axios";
 import { useAppDispatch } from './hooks';
@@ -7,6 +7,7 @@ import { useAppDispatch } from './hooks';
 export type ProvideAuthModel = {
     session: string;
     signUp: Function;
+    signIn: Function;
 };
 
 const useProvideAuth = (): ProvideAuthModel => {
@@ -24,9 +25,20 @@ const useProvideAuth = (): ProvideAuthModel => {
                 return data;
             });
     };
+
+    const signIn = (loginData: LoginUserModel) => {
+        return dispatch(
+            userActions.login(loginData))
+            .then(data => {
+                const token = data?.payload?.token || "";
+                setSession(token);
+                return data;
+            });
+    };
     return {
         session,
-        signUp
+        signUp,
+        signIn
     };
 }
 
