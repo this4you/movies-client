@@ -16,6 +16,14 @@ const fetchMovies = createAsyncThunk(
     }
 )
 
+const createMovie = createAsyncThunk(
+    'movies/create',
+    async (movie: MovieModel) => {
+        const response = await moviesApi.create(movie);
+        return response.data;
+    }
+)
+
 const initialState: MoviesState = {
     moviesList: [],
     currentMovies: null
@@ -34,4 +42,4 @@ const movieSlice = createSlice({
 
 export const moviesReducer = movieSlice.reducer;
 
-export const moviesActions = { ...movieSlice.actions, fetchMovies };
+export const moviesActions = { ...movieSlice.actions, fetchMovies, createMovie };

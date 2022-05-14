@@ -5,6 +5,8 @@ import SendIcon from '@mui/icons-material/Send';
 import { Box, Button, Chip, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Stack, TextField } from '@mui/material';
 import "./MovieForm.scss"
 import { MovieModel } from '../../models';
+import { useMovies } from '../../hooks';
+import { ActorsFormControl } from '..';
 
 type MovieFormProps = {
   submitHandle: Function,
@@ -14,11 +16,25 @@ type MovieFormProps = {
 
 const MovieForm: FC<MovieFormProps> = ({ submitHandle, cinemaFormats }): ReactElement => {
 
-  const { register, handleSubmit, formState: { errors } } = useForm<MovieModel>();
+  const { register, reset, handleSubmit, formState: { errors } } = useForm<MovieModel>();
+
+  const { createMovie, fetchMovies } = useMovies();
+
+  const onKeyDown = (event) => {
+    if (event.keyCode == 13) {
+      event.preventDefault();
+      addActorHandler();
+    }
+  }
 
   const onSubmit = handleSubmit(data => {
-      data = actors ? {...data, actors} : data;
-      console.log(data);
+    data = actors ? { ...data, actors } : data;
+    createMovie(data).then((responseData) => {
+      if (responseData?.payload?.status === 1) {
+        fetchMovies();
+        reset();
+      }
+    });
   });
 
   const [actors, setActors] = React.useState<string[]>([]);
@@ -55,19 +71,22 @@ const MovieForm: FC<MovieFormProps> = ({ submitHandle, cinemaFormats }): ReactEl
             labelId="format-select-label"
             id="format-select"
             label="Format"
+
             defaultValue={""}
           >
             {cinemaFormats.map((format) => <MenuItem value={format} key={format}>{format}</MenuItem>)}
           </Select>
         </FormControl>
 
-        <Stack direction="row" alignItems="center" spacing={2}>
-          <TextField id="outlined-basic" className="form-input" label="Actor`s name" variant="outlined"
+
+        <ActorsFormControl actors={actors} setActors={setActors} />
+        {/* <Stack direction="row" alignItems="center" spacing={2}>
+          <TextField id="outlined-basic" className="form-input" label="Actor`s name" variant="outlined" onKeyDown={onKeyDown}
             value={actorName} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setActorName(event.target.value)} />
           <IconButton onClick={addActorHandler} style={{ marginTop: "-17px" }} aria-label="delete">
             <Add />
           </IconButton>
-        </Stack>
+        </Stack> */}
 
         <Box maxHeight={"82px"} overflow="auto" className="form-input" padding="10px" sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
           {actors.length > 0 ? actors.map(value => <Chip key={value} label={value} />) : <h4>No actors</h4>}
