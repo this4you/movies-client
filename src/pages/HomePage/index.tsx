@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { MovieForm, MovieList } from '../../components';
 import { moviesActios } from '../../redux/actions';
 import { useAppDispatch } from '../../utils/hooks';
@@ -13,7 +13,7 @@ function HomePage() {
         id: 1, title: "Test Movie", format: "Test", year: 2000, actors: []
       }
     ]))
-  }, []);
+  }, [dispatch]);
   
   return (
    <div className="wrapp">

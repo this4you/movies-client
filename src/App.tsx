@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './App.scss';
 import {
   Routes,
   Route,
   Navigate
 } from "react-router-dom";
-import { useAppDispatch } from './utils/hooks';
-import { moviesActios } from './redux/actions';
 import { AuthPage, HomePage } from './pages';
 import { LoginForm, RegisterForm } from './components';
+import { useAuth } from './utils/ProvideAuth';
 
 
 function App() {
+  const auth = useAuth();
+
   return (
     <Routes>
-      <Route path="/home" element={<HomePage />} />
-      <Route path="/" element={<AuthPage />}>
+      <Route path="/home" element={auth.session ? <HomePage /> : <Navigate to="/login" />} />
+      <Route path="/" element={!auth.session ? <AuthPage /> : <Navigate to="/home" />}>
         <Route index element={<LoginForm />} />
         <Route path="login" element={<LoginForm />} />
         <Route path="register" element={<RegisterForm />} />

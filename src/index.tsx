@@ -8,6 +8,7 @@ import store from './redux/store'
 import {
   BrowserRouter as Router,
 } from "react-router-dom";
+import { ProvideAuth } from './utils/ProvideAuth';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,7 +16,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <Router>
     <Provider store={store}>
-      <App />
+      <ProvideAuth>
+        <App />
+      </ProvideAuth>
     </Provider>
   </Router>
 );

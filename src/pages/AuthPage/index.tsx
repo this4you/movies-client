@@ -1,9 +1,4 @@
-import { Login, Create } from '@mui/icons-material';
-import { Button, Paper, Stack } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { RegisterForm } from '../../components';
-import LoginForm from '../../components/LoginForm';
-import { Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import './AuthPage.scss';
 
 function AuthPage() {

@@ -19,7 +19,7 @@ type FormData = {
 
 const MovieForm: FC<MovieFormProps> = ({ submitHandle, cinemaFormats }): ReactElement => {
 
-  const { register, setValue, handleSubmit, formState: { errors } } = useForm<FormData>();
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
 
   const onSubmit = handleSubmit(data => console.log(data));
 

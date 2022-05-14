@@ -1,9 +1,8 @@
-import React, { FC, ReactElement, useEffect } from 'react';
+import React, { FC, ReactElement} from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import "./MovieList.scss"
 import { IconButton, Paper, TextField } from '@mui/material';
 import { Delete } from '@mui/icons-material';
-import { Movie } from '../../models';
 import { useAppSelector } from '../../utils/hooks';
 
 type MovieListProps = {}
