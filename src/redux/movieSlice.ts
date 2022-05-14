@@ -8,6 +8,14 @@ type MoviesState = {
     currentMovies?: MovieModel
 }
 
+const fetchMovies = createAsyncThunk(
+    'movies/fetchList',
+    async () => {
+        const response = await moviesApi.getAll();
+        return response.data
+    }
+)
+
 const initialState: MoviesState = {
     moviesList: [],
     currentMovies: null
@@ -16,16 +24,14 @@ const initialState: MoviesState = {
 const movieSlice = createSlice({
     name: 'movies',
     initialState,
-    reducers: {
-        setMovies(state: MoviesState, action) {
-            state.moviesList = [...action.payload]
-        }
-    },
+    reducers: {},
     extraReducers: (builder) => {
-
+        builder.addCase(fetchMovies.fulfilled, (state: MoviesState, action) => {
+            state.moviesList = [...action.payload.data]
+        })
     },
 })
 
 export const moviesReducer = movieSlice.reducer;
 
-export const moviesActions = { ...movieSlice.actions };
+export const moviesActions = { ...movieSlice.actions, fetchMovies };

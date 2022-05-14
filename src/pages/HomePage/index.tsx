@@ -1,22 +1,18 @@
 import React, { useEffect } from 'react';
 import { MovieForm, MovieList } from '../../components';
-import { moviesActions } from '../../redux/movieSlice';
-import { useAppDispatch } from '../../hooks';
+import { useMovies } from '../../hooks';
 import './HomePage.scss';
 
 function HomePage() {
-  const dispatch = useAppDispatch();
+
+  const { fetchMovies } = useMovies();
 
   useEffect(() => {
-    dispatch(moviesActions.setMovies([
-      {
-        id: 1, title: "Test Movie", format: "Test", year: 2000, actors: []
-      }
-    ]))
-  }, [dispatch]);
-  
+    fetchMovies();
+  }, [fetchMovies]);
+
   return (
-   <div className="wrapp">
+    <div className="wrapp">
       <div className="form-wrapp">
         <MovieForm submitHandle={() => { }} cinemaFormats={["VHS", "DVD", "Blu-Ray"]} />
       </div>
