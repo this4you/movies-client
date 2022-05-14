@@ -8,7 +8,7 @@ import store from './redux/store'
 import {
   BrowserRouter as Router,
 } from "react-router-dom";
-import { ProvideAuth } from './utils/ProvideAuth';
+import { ProvideAuth } from './providers';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

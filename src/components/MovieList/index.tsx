@@ -3,7 +3,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import "./MovieList.scss"
 import { IconButton, Paper, TextField } from '@mui/material';
 import { Delete } from '@mui/icons-material';
-import { useAppSelector } from '../../utils/hooks';
+import { useAppSelector } from '../../hooks';
 
 type MovieListProps = {}
 

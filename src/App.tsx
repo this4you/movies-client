@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import { AuthPage, HomePage } from './pages';
 import { LoginForm, RegisterForm } from './components';
-import { useAuth } from './utils/ProvideAuth';
+import { useAuth } from './hooks';
 
 
 function App() {

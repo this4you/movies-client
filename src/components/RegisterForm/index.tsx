@@ -4,7 +4,7 @@ import { Button, Paper, TextField } from '@mui/material';
 import "./RegisterForm.scss"
 import { Link } from 'react-router-dom';
 import { RegisterUserModel } from '../../models';
-import { useAuth } from '../../utils/ProvideAuth';
+import { useAuth } from '../../hooks';
 import { processErrors } from '../../utils/formValidations';
 
 const RegisterForm: FC<{}> = (): ReactElement => {

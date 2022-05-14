@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { MovieForm, MovieList } from '../../components';
 import { moviesActios } from '../../redux/actions';
-import { useAppDispatch } from '../../utils/hooks';
+import { useAppDispatch } from '../../hooks';
 import './HomePage.scss';
 
 function HomePage() {
