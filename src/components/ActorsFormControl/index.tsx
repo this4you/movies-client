@@ -27,7 +27,7 @@ const ActorsFormControl: FC<ActorsFormControlProps> = ({ setActors, actors }) =>
     }
 
     const deleteActor = (actorName) => {
-        setActors(actors.filter(a => a != actorName));
+        setActors(actors.filter(a => a !== actorName));
     }
 
     return (
