@@ -10,7 +10,6 @@ import { processErrors } from '../../utils/formValidations';
 const RegisterForm: FC<{}> = (): ReactElement => {
   const auth = useAuth();
   const { register, setError, handleSubmit, formState: { errors } } = useForm<RegisterUserModel>();
-  console.log(errors);
 
   const onSubmit = handleSubmit(data => {
     auth.signUp(data).then((data) => {

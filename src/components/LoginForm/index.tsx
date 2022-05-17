@@ -1,20 +1,30 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, useState } from 'react';
 import { useForm } from "react-hook-form";
-import { Button, Paper, TextField } from '@mui/material';
+import { Button, css, Paper, TextField } from '@mui/material';
 import "./LoginForm.scss"
 import { Link } from 'react-router-dom';
 import { LoginUserModel } from '../../models';
 import { useAuth } from '../../hooks';
 import { processErrors } from '../../utils/formValidations';
+import { SyncLoader } from "react-spinners";
+import { MovieSpinner } from '..';
 
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
 
 const LoginForm: FC<{}> = (): ReactElement => {
   const auth = useAuth();
+  const [loading, setLoading] = useState(false);
   const { register, handleSubmit, setError, formState: { errors } } = useForm<LoginUserModel>();
-  console.log(errors);
 
   const onSubmit = handleSubmit(data => {
+    setLoading(true);
     auth.signIn(data).then((data) => {
+      setLoading(false);
       const asyncErrors = data?.payload?.error;
       if (asyncErrors) {
         processErrors(asyncErrors, setError);
@@ -38,6 +48,7 @@ const LoginForm: FC<{}> = (): ReactElement => {
         />
         <Button type="submit" variant="contained" color="info">Sing IN</Button>
         <Link to={'/register'}>Sign up</Link>
+        <MovieSpinner loading={loading}></MovieSpinner>
       </Paper>
     </form>
   )

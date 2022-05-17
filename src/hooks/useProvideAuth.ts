@@ -8,6 +8,7 @@ export type ProvideAuthModel = {
     session: string;
     signUp: Function;
     signIn: Function;
+    logOut: Function;
 };
 
 const useProvideAuth = (): ProvideAuthModel => {
@@ -34,10 +35,17 @@ const useProvideAuth = (): ProvideAuthModel => {
                 return data;
             });
     };
+
+    const logOut = () => {
+        setSession("");
+        localStorage.setItem(AUTH_LOCAL_STORAGE_TOKEN, "");
+    }
+
     return {
         session,
         signUp,
-        signIn
+        signIn,
+        logOut
     };
 }
 

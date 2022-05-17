@@ -8,11 +8,28 @@
   
   .form-wrapp {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    flex-direction: column;
     width: 500px;
     height: 100%;
     background-color:#39b0e4;
+    .log-out-container {
+      background-color: #FFFF;
+      width: 100%;
+      .log-out-button {
+        width: inherit;
+      }
+      text-align: center;
+
+    }
+    .movie-form-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex:1;
+    }
+    // background-color: rgb(255, 198, 198);
   }
   
   .list-wrapp {
