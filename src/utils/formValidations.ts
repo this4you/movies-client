@@ -9,7 +9,19 @@ const processErrors = (asyncErrors, setError) => {
 }
 
 const getErrorTextByMessage = (type: string) => {
-    return "TEST";
+    let message = "";
+    switch (type) {
+        case "MOVIE_EXISTS":
+            message = "Movie is exists!"
+            break;
+        case "AUTHENTICATION_FAILED":
+            message = "Authentication faliled! Change your login or email"
+            break;
+        default:
+            message = "Unexpected error"
+            break;
+    };
+    return message;
 }
 
 const formValidator = {

@@ -7,20 +7,17 @@ import "./MovieForm.scss"
 import { MovieModel } from '../../models';
 import { useMovies } from '../../hooks';
 import { ActorsFormControl } from '..';
-
-type MovieFormProps = {
-  submitHandle: Function,
-  cinemaFormats: Array<string>
-}
+import { formValidator } from '../../utils';
+const { processErrors } = formValidator;
 
 const Input = styled('input')({
   display: 'none',
 });
 
 
-const MovieForm: FC<MovieFormProps> = ({ submitHandle, cinemaFormats }): ReactElement => {
-
-  const { register, reset, handleSubmit, formState: { errors } } = useForm<MovieModel>();
+const MovieForm: FC<{}> = (): ReactElement => {
+  const cinemaFormats = ["VHS", "DVD", "Blu-Ray"];
+  const { register, reset, handleSubmit, setError, formState: { errors } } = useForm<MovieModel>();
   const { createMovie, fetchMovies, importMovie } = useMovies();
   const [actors, setActors] = React.useState<string[]>([]);
 
@@ -30,6 +27,11 @@ const MovieForm: FC<MovieFormProps> = ({ submitHandle, cinemaFormats }): ReactEl
       if (responseData?.payload?.status === 1) {
         fetchMovies();
         reset();
+      } else {
+        const asyncErrors = responseData?.payload?.error;
+        if (asyncErrors) {
+          processErrors(asyncErrors, setError);
+        }
       }
     });
   });

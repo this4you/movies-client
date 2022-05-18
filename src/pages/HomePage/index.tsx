@@ -22,7 +22,7 @@ function HomePage() {
           <Button className="log-out-button" onClick={() => logOut()}>Log out</Button>
         </div>
         <div className="movie-form-container">
-          <MovieForm submitHandle={() => { }} cinemaFormats={["VHS", "DVD", "Blu-Ray"]} />
+          <MovieForm />
         </div>
       </div>
       <div className="list-wrapp">

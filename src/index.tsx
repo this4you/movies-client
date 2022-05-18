@@ -15,7 +15,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <SnackbarProvider maxSnack={3}>
+  <SnackbarProvider maxSnack={2}>
     <AxiosInterceptorProvider>
       <Router>
         <Provider store={store}>

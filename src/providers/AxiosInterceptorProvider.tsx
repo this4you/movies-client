@@ -1,14 +1,26 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useSnackbar } from 'notistack';
+import {formValidator} from '../utils';
+const {getErrorTextByMessage} = formValidator;
+
 
 export const AUTH_LOCAL_STORAGE_TOKEN = 'auth_token';
 export const instance = axios.create({ baseURL: process.env.REACT_APP_API_BASE_URL as string });
+
 
 const AxiosInterceptorProvider = ({ children }) => {
     const [isAxiosReady, setIsAxiosReady] = useState(false);
     const { enqueueSnackbar } = useSnackbar();
 
+    const processMovieApiError = (response) => {
+        if (!response?.data?.error) return;
+        const errorCode = response.data.error.code;
+        const message = getErrorTextByMessage(errorCode);
+        enqueueSnackbar(message, {variant:'error'});
+    }
+
+    
     useEffect(() => {
 
         const reqInterceptor = request => {
@@ -20,9 +32,7 @@ const AxiosInterceptorProvider = ({ children }) => {
         }
 
         const resInterceptor = response => {
-            debugger
-            enqueueSnackbar("Response!");
-            console.log("RESPONSE");
+            processMovieApiError(response);
             return response;
         }
 
@@ -30,7 +40,7 @@ const AxiosInterceptorProvider = ({ children }) => {
             console.log("ERROR");
             return Promise.reject(error);
         }
-
+        
 
         const interceptorRes = instance.interceptors.response.use(resInterceptor, errInterceptor);
         const interceptorReq = instance.interceptors.request.use(reqInterceptor);
