@@ -1,4 +1,4 @@
-import {axios} from "../utils";
+import { axios } from "../providers";
 import { LoginUserModel, RegisterUserModel } from "../models";
 
 const userApi = {

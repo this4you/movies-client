@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { LoginUserModel, RegisterUserModel } from "../models";
 import { userActions } from "../redux/userSlice";
-import { AUTH_LOCAL_STORAGE_TOKEN } from "../utils/axios";
+import { AUTH_LOCAL_STORAGE_TOKEN } from "../providers";
 import { useAppDispatch } from '../hooks';
 
 export type ProvideAuthModel = {

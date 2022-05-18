@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { userApi } from "../api"
 import { RegisterUserModel, LoginUserModel } from "../models"
-import { AUTH_LOCAL_STORAGE_TOKEN } from "../utils/axios"
+import { AUTH_LOCAL_STORAGE_TOKEN } from "../providers"
 
 
 const register = createAsyncThunk(

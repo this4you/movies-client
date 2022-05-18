@@ -8,19 +8,24 @@ import store from './redux/store'
 import {
   BrowserRouter as Router,
 } from "react-router-dom";
-import { ProvideAuth } from './providers';
+import { ProvideAuth, AxiosInterceptorProvider } from './providers';
+import { SnackbarProvider } from 'notistack';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <Router>
-    <Provider store={store}>
-      <ProvideAuth>
-        <App />
-      </ProvideAuth>
-    </Provider>
-  </Router>
+  <SnackbarProvider maxSnack={3}>
+    <AxiosInterceptorProvider>
+      <Router>
+        <Provider store={store}>
+          <ProvideAuth>
+            <App />
+          </ProvideAuth>
+        </Provider>
+      </Router>
+    </AxiosInterceptorProvider>
+  </SnackbarProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,4 +1,4 @@
-import { axios } from "../utils";
+import { axios } from "../providers";
 import { MovieModel } from "../models";
 
 const importMovie = (file) => {
