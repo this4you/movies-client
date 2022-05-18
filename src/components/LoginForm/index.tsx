@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom';
 import { LoginUserModel } from '../../models';
 import { useAuth } from '../../hooks';
 import { MovieSpinner } from '..';
-import {formValidator} from '../../utils';
+// import {formValidator} from '@/utils';
+ import {formValidator} from '../../utils';
 const {processErrors} = formValidator;
 
 const LoginForm: FC<{}> = (): ReactElement => {
