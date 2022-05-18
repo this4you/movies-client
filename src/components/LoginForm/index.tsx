@@ -5,8 +5,9 @@ import "./LoginForm.scss"
 import { Link } from 'react-router-dom';
 import { LoginUserModel } from '../../models';
 import { useAuth } from '../../hooks';
-import { processErrors } from '../../utils/formValidations';
 import { MovieSpinner } from '..';
+import {formValidator} from '../../utils';
+const {processErrors} = formValidator;
 
 const LoginForm: FC<{}> = (): ReactElement => {
   const auth = useAuth();

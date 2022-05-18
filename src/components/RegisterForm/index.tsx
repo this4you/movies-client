@@ -5,7 +5,9 @@ import "./RegisterForm.scss"
 import { Link } from 'react-router-dom';
 import { RegisterUserModel } from '../../models';
 import { useAuth } from '../../hooks';
-import { processErrors } from '../../utils/formValidations';
+import {formValidator} from '../../utils';
+
+const {processErrors} = formValidator;
 
 const RegisterForm: FC<{}> = (): ReactElement => {
   const auth = useAuth();

@@ -1,5 +1,5 @@
 
-export const processErrors = (asyncErrors, setError) => {
+const processErrors = (asyncErrors, setError) => {
     for (let field in asyncErrors.fields) {
         const messageType = asyncErrors.fields[field];
         const message = getErrorTextByMessage(messageType);
@@ -11,3 +11,10 @@ export const processErrors = (asyncErrors, setError) => {
 const getErrorTextByMessage = (type: string) => {
     return "TEST";
 }
+
+const formValidator = {
+    processErrors,
+    getErrorTextByMessage
+}
+
+export default formValidator;

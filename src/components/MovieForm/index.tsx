@@ -24,7 +24,7 @@ const MovieForm: FC<MovieFormProps> = ({ submitHandle, cinemaFormats }): ReactEl
   const { createMovie, fetchMovies, importMovie } = useMovies();
   const [actors, setActors] = React.useState<string[]>([]);
 
-  const onSubmit = handleSubmit(data => {
+  const createMovieHandler = handleSubmit(data => {
     data = actors ? { ...data, actors } : data;
     createMovie(data).then((responseData) => {
       if (responseData?.payload?.status === 1) {
@@ -51,7 +51,7 @@ const MovieForm: FC<MovieFormProps> = ({ submitHandle, cinemaFormats }): ReactEl
         <h2>Add new cinema</h2>
       </div>
       <div className="fields">
-        <form onSubmit={onSubmit}>
+        <form onSubmit={createMovieHandler}>
 
           <TextField id="title" name="title" className="form-input" label="Title" variant="outlined"
             {...register("title", { required: true, maxLength: 20 })}

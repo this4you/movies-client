@@ -12,7 +12,6 @@ const AxiosInterceptorProvider = ({ children }) => {
     useEffect(() => {
 
         const reqInterceptor = request => {
-            enqueueSnackbar("Request!");
             const token = localStorage.getItem(AUTH_LOCAL_STORAGE_TOKEN);
             if (token) {
                 request.headers.common["Authorization"] = token;
@@ -21,6 +20,7 @@ const AxiosInterceptorProvider = ({ children }) => {
         }
 
         const resInterceptor = response => {
+            debugger
             enqueueSnackbar("Response!");
             console.log("RESPONSE");
             return response;
