@@ -9,12 +9,24 @@ type MovieListProps = {}
 
 
 const MovieList: FC<MovieListProps> = (): ReactElement => {
-  const { fetchMovies } = useMovies();
+  const { fetchMovies, deleteMovie, needUpdate } = useMovies();
   const { moviesList, isNeedUpdate, totalCount } = useAppSelector((state) => state.movies);
   const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const fetchPageMovies = () => {
-    fetchMovies({ limit: 9, offset: 9 * (page) });
+    setLoading(true);
+    fetchMovies({ limit: 9, offset: 9 * (page) }).then(() => {
+      setLoading(false);
+    });
+  }
+
+  const onDeleteMovie = (id) => {
+    deleteMovie(id).then((responseData) => {
+      if (responseData?.payload?.status === 1) {
+        needUpdate();
+      }
+    });
   }
 
   useEffect(() => {
@@ -39,7 +51,7 @@ const MovieList: FC<MovieListProps> = (): ReactElement => {
     {
       field: 'delete', headerName: '', width: 70, renderCell: (params) => {
         return (
-          <IconButton onClick={() => { console.log(params.id) }} aria-label="delete">
+          <IconButton onClick={() => { onDeleteMovie(params.id) }} aria-label="delete">
             <Delete />
           </IconButton>
         );
@@ -61,6 +73,7 @@ const MovieList: FC<MovieListProps> = (): ReactElement => {
           rows={moviesList}
           columns={columns}
           pageSize={9}
+          loading={loading}
           page={page}
           paginationMode="server"
           rowCount={totalCount}

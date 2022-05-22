@@ -15,7 +15,15 @@ const fetchMovies = createAsyncThunk(
     'movies/fetchList',
     async (params?: MovieListParams) => {
         const response = await moviesApi.getAll(params);
-        return response.data
+        return response.data;
+    }
+)
+
+const deleteMovie = createAsyncThunk(
+    'movies/delete',
+    async (id: string) => {
+        const response = await moviesApi.delete(id);
+        return response.data;
     }
 )
 
@@ -64,6 +72,7 @@ export const moviesReducer = movieSlice.reducer;
 export const moviesActions = {
     ...movieSlice.actions,
     fetchMovies,
+    deleteMovie,
     createMovie,
     importMovie
 };
