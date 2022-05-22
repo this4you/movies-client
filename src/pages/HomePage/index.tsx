@@ -1,20 +1,12 @@
 import { Button } from '@mui/material';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MovieForm, MovieList } from '../../components';
-import { useAuth, useMovies } from '../../hooks';
+import { useAuth } from '../../hooks';
 import './HomePage.scss';
 
 function HomePage() {
-
-  const { fetchMovies } = useMovies();
-  const {logOut, session} = useAuth();
-
-  useEffect(() => {
-    if (session) {
-      fetchMovies();
-    }
-  }, [fetchMovies, session]);
-
+  const {logOut} = useAuth();
+  
   return (
     <div className="wrapp">
       <div className="form-wrapp">

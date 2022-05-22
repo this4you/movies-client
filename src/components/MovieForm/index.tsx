@@ -16,16 +16,16 @@ const Input = styled('input')({
 
 
 const MovieForm: FC<{}> = (): ReactElement => {
-  const cinemaFormats = ["VHS", "DVD", "Blu-Ray"];
+  const movieFormats = ["VHS", "DVD", "Blu-Ray"];
   const { register, reset, handleSubmit, setError, formState: { errors } } = useForm<MovieModel>();
-  const { createMovie, fetchMovies, importMovie } = useMovies();
+  const { createMovie, needUpdate, importMovie } = useMovies();
   const [actors, setActors] = React.useState<string[]>([]);
 
   const createMovieHandler = handleSubmit(data => {
     data = actors ? { ...data, actors } : data;
     createMovie(data).then((responseData) => {
       if (responseData?.payload?.status === 1) {
-        fetchMovies();
+        needUpdate();
         reset();
       } else {
         const asyncErrors = responseData?.payload?.error;
@@ -41,7 +41,7 @@ const MovieForm: FC<{}> = (): ReactElement => {
       const file = event.target.files[0];
       importMovie(file).then((responseData) => {
         if (responseData?.payload?.status === 1) {
-          fetchMovies();
+          needUpdate();
         }
       })
     }
@@ -50,7 +50,7 @@ const MovieForm: FC<{}> = (): ReactElement => {
   return (
     <Paper elevation={3} className="form" >
       <div className="title">
-        <h2>Add new cinema</h2>
+        <h2>Add new movie</h2>
       </div>
       <div className="fields">
         <form onSubmit={createMovieHandler}>
@@ -75,7 +75,7 @@ const MovieForm: FC<{}> = (): ReactElement => {
 
               defaultValue={""}
             >
-              {cinemaFormats.map((format) => <MenuItem value={format} key={format}>{format}</MenuItem>)}
+              {movieFormats.map((format) => <MenuItem value={format} key={format}>{format}</MenuItem>)}
             </Select>
           </FormControl>
 

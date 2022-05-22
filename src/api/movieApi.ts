@@ -1,6 +1,11 @@
 import { axios } from "../providers";
 import { MovieModel } from "../models";
 
+export type MovieListParams = {
+    limit: number,
+    offset: number
+};
+
 const importMovie = (file) => {
     var formData = new FormData();
     formData.append("movies", file);
@@ -10,7 +15,7 @@ const importMovie = (file) => {
 
 const movieApi = {
     create: (data: MovieModel) => axios.post('movies', data),
-    getAll: () => axios.get('movies'),
+    getAll: (params?: MovieListParams) => axios.get('movies', { params }),
     import: importMovie
 }
 

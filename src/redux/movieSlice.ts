@@ -1,3 +1,4 @@
+import { MovieListParams } from "@/api/movieApi"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { moviesApi } from "../api"
 import { MovieModel } from "../models"
@@ -5,13 +6,15 @@ import { MovieModel } from "../models"
 
 type MoviesState = {
     moviesList: Array<MovieModel>,
+    totalCount: number,
+    isNeedUpdate: boolean,
     currentMovies?: MovieModel
 }
 
 const fetchMovies = createAsyncThunk(
     'movies/fetchList',
-    async () => {
-        const response = await moviesApi.getAll();
+    async (params?: MovieListParams) => {
+        const response = await moviesApi.getAll(params);
         return response.data
     }
 )
@@ -26,7 +29,7 @@ const createMovie = createAsyncThunk(
 
 const importMovie = createAsyncThunk(
     'movies/import',
-    async (file : any) => {
+    async (file: any) => {
         const response = await moviesApi.import(file);
         return response.data;
     }
@@ -34,16 +37,24 @@ const importMovie = createAsyncThunk(
 
 const initialState: MoviesState = {
     moviesList: [],
-    currentMovies: null
+    totalCount: 0,
+    currentMovies: null,
+    isNeedUpdate: false
 };
 
 const movieSlice = createSlice({
     name: 'movies',
     initialState,
-    reducers: {},
+    reducers: {
+        needUpdate(state) {
+            state.isNeedUpdate = true;
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(fetchMovies.fulfilled, (state: MoviesState, action) => {
-            state.moviesList = [...action.payload.data]
+            state.moviesList = [... (action?.payload?.data || [])];
+            state.totalCount = action?.payload?.meta?.total;
+            state.isNeedUpdate = false;
         })
     },
 })
