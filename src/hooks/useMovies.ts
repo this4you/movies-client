@@ -9,6 +9,7 @@ export type MoviesServiceModel = {
     importMovie: Function;
     needUpdate: Function;
     deleteMovie: Function;
+    showMovie: Function;
 };
 
 const useMovies = (): MoviesServiceModel => {
@@ -19,7 +20,8 @@ const useMovies = (): MoviesServiceModel => {
         deleteMovie: (id: string) => dispatch(moviesActions.deleteMovie(id)),
         createMovie: (movie: MovieModel) => dispatch(moviesActions.createMovie(movie)),
         importMovie: (file) => dispatch(moviesActions.importMovie(file)),
-        needUpdate: () => dispatch(moviesActions.needUpdate())
+        needUpdate: () => dispatch(moviesActions.needUpdate()),
+        showMovie: (id: string) => dispatch(moviesActions.fetchMovie(id))
     };
 }
 

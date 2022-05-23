@@ -5,6 +5,7 @@ import { IconButton, Paper, TextField } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import { useAppSelector, useMovies } from '../../hooks';
 import { MovieListParams, SortOrder } from '../../api/movieApi';
+import { useNavigate } from "react-router-dom";
 
 type MovieListProps = {}
 
@@ -17,6 +18,7 @@ const MovieList: FC<MovieListProps> = (): ReactElement => {
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
+  const navigate = useNavigate();
 
   const [sortParams, setSortParams] = useState({ sort: defaultSort, order: defaultOrder });
 
@@ -103,18 +105,25 @@ const MovieList: FC<MovieListProps> = (): ReactElement => {
       setSearch(value);
     }
   }
+
+  const rowDoubleClickHandler = ({id}) => {
+    navigate(`${id}`);
+  }
+
   return (
 
     <Paper className="movieList-wrap" elevation={10}>
       <TextField id="search-field" onChange={handleChangeSearchValue} className="search-field" label="Search" variant="outlined" />
       <div style={{ height: 600, width: '100%' }}>
         <DataGrid
+          onRowDoubleClick={rowDoubleClickHandler}
           rows={moviesList}
           columns={columns}
           pageSize={9}
           loading={loading}
           hideFooterSelectedRowCount
           onSortModelChange={handleSortModelChange}
+          sortingMode='server'
           page={page}
           paginationMode="server"
           rowCount={totalCount}

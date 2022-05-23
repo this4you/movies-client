@@ -1,5 +1,6 @@
 import { Button } from '@mui/material';
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 import { MovieForm, MovieList } from '../../components';
 import { useAuth } from '../../hooks';
 import './HomePage.scss';
@@ -9,6 +10,7 @@ function HomePage() {
   
   return (
     <div className="wrapp">
+      <Outlet></Outlet>
       <div className="form-wrapp">
         <div className="log-out-container">
           <Button className="log-out-button" onClick={() => logOut()}>Log out</Button>

@@ -24,6 +24,7 @@ const importMovie = (file) => {
 
 const movieApi = {
     create: (data: MovieModel) => axios.post(URL_ENDPOINT, data),
+    show: (id: string) => axios.get(`${URL_ENDPOINT}/${id}`),
     delete: (id: string) => axios.delete(`${URL_ENDPOINT}/${id}`),
     getAll: (params?: MovieListParams) => axios.get(URL_ENDPOINT, { params }),
     import: importMovie

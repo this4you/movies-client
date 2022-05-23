@@ -8,13 +8,21 @@ type MoviesState = {
     moviesList: Array<MovieModel>,
     totalCount: number,
     isNeedUpdate: boolean,
-    currentMovies?: MovieModel
+    currentMovie?: MovieModel
 }
 
 const fetchMovies = createAsyncThunk(
     'movies/fetchList',
     async (params?: MovieListParams) => {
         const response = await moviesApi.getAll(params);
+        return response.data;
+    }
+)
+
+const fetchMovie = createAsyncThunk(
+    'movies/show',
+    async (id: string) => {
+        const response = await moviesApi.show(id);
         return response.data;
     }
 )
@@ -46,7 +54,7 @@ const importMovie = createAsyncThunk(
 const initialState: MoviesState = {
     moviesList: [],
     totalCount: 0,
-    currentMovies: null,
+    currentMovie: null,
     isNeedUpdate: false
 };
 
@@ -63,6 +71,10 @@ const movieSlice = createSlice({
             state.moviesList = [... (action?.payload?.data || [])];
             state.totalCount = action?.payload?.meta?.total;
             state.isNeedUpdate = false;
+        });
+
+        builder.addCase(fetchMovie.fulfilled, (state: MoviesState, action) => {
+            state.currentMovie = action?.payload?.data;
         })
     },
 })
@@ -72,6 +84,7 @@ export const moviesReducer = movieSlice.reducer;
 export const moviesActions = {
     ...movieSlice.actions,
     fetchMovies,
+    fetchMovie,
     deleteMovie,
     createMovie,
     importMovie
