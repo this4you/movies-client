@@ -29,6 +29,7 @@ const MovieForm: FC<{}> = (): ReactElement => {
       setLoading(false);
       if (responseData?.payload?.status === 1) {
         needUpdate();
+        setActors([])
         reset();
       } else {
         const asyncErrors = responseData?.payload?.error;

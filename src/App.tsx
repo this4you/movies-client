@@ -15,8 +15,8 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/home" element={auth.session ? <HomePage /> : <Navigate to="/login" />} />
-      <Route path="/" element={!auth.session ? <AuthPage /> : <Navigate to="/home" />}>
+      <Route path="/movies" element={auth.session ? <HomePage /> : <Navigate to="/login" />} />
+      <Route path="/" element={!auth.session ? <AuthPage /> : <Navigate to="/movies" />}>
         <Route index element={<LoginForm />} />
         <Route path="login" element={<LoginForm />} />
         <Route path="register" element={<RegisterForm />} />

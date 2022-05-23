@@ -4,8 +4,16 @@ import { MovieModel } from "../models";
 const URL_ENDPOINT = 'movies';
 export type MovieListParams = {
     limit: number,
-    offset: number
+    offset: number,
+    sort: string,
+    order: SortOrder,
+    search: string
 };
+
+export enum SortOrder {
+    ASC = 'ASC',
+    DESC = 'DESC'
+}
 
 const importMovie = (file) => {
     var formData = new FormData();
