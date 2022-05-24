@@ -13,14 +13,30 @@ const defaultSort = 'id';
 const defaultOrder = SortOrder.ASC;
 
 const MovieList: FC<MovieListProps> = (): ReactElement => {
-  const { fetchMovies, deleteMovie, needUpdate } = useMovies();
   const { moviesList, isNeedUpdate, totalCount } = useAppSelector((state) => state.movies);
-  const [page, setPage] = useState(0);
+  const { fetchMovies, deleteMovie, needUpdate } = useMovies();
+  
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0);
   const [search, setSearch] = useState('');
   const navigate = useNavigate();
-
   const [sortParams, setSortParams] = useState({ sort: defaultSort, order: defaultOrder });
+  
+  useEffect(() => {
+    fetchPageMovies();
+  }, [page, sortParams, search]);
+
+  useEffect(() => {
+    if (!isNeedUpdate) return;
+
+    if (page) {
+      setPage(0);
+    } else {
+      fetchPageMovies();
+    }
+
+  }, [isNeedUpdate]);
+
 
   const fetchPageMovies = () => {
     setLoading(true);
@@ -46,21 +62,6 @@ const MovieList: FC<MovieListProps> = (): ReactElement => {
       }
     });
   }
-
-  useEffect(() => {
-    fetchPageMovies();
-  }, [page, sortParams, search]);
-
-  useEffect(() => {
-    if (!isNeedUpdate) return;
-
-    if (page) {
-      setPage(0);
-    } else {
-      fetchPageMovies();
-    }
-
-  }, [isNeedUpdate]);
 
   const columns: GridColDef[] = [
     { field: 'title', headerName: 'Movie name', width: 300 },
@@ -111,7 +112,7 @@ const MovieList: FC<MovieListProps> = (): ReactElement => {
   }
 
   return (
-
+    
     <Paper className="movieList-wrap" elevation={10}>
       <TextField id="search-field" onChange={handleChangeSearchValue} className="search-field" label="Search" variant="outlined" />
       <div style={{ height: 600, width: '100%' }}>
