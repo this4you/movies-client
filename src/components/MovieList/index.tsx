@@ -67,7 +67,7 @@ const MovieList: FC<MovieListProps> = (): ReactElement => {
     { field: 'format', type: 'string', headerName: 'Format', width: 200, sortable: false },
     { field: 'year', type: 'number', headerName: 'Year', width: 100 },
     {
-      field: 'delete', headerName: '', width: 70, renderCell: (params) => {
+      field: 'delete', headerName: '', width: 70, hideSortIcons: true, renderCell: (params) => {
         return (
           <IconButton onClick={() => { onDeleteMovie(params.id) }} aria-label="delete">
             <Delete />
@@ -116,6 +116,7 @@ const MovieList: FC<MovieListProps> = (): ReactElement => {
       <TextField id="search-field" onChange={handleChangeSearchValue} className="search-field" label="Search" variant="outlined" />
       <div style={{ height: 600, width: '100%' }}>
         <DataGrid
+          disableColumnMenu={true}
           onRowDoubleClick={rowDoubleClickHandler}
           rows={moviesList}
           columns={columns}

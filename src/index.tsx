@@ -16,15 +16,15 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <SnackbarProvider maxSnack={2}>
-    <AxiosInterceptorProvider>
-      <Router>
+    <Router>
+      <AxiosInterceptorProvider>
         <Provider store={store}>
           <ProvideAuth>
             <App />
           </ProvideAuth>
         </Provider>
-      </Router>
-    </AxiosInterceptorProvider>
+      </AxiosInterceptorProvider>
+    </Router>
   </SnackbarProvider>
 );
 

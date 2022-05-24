@@ -47,8 +47,8 @@ const MovieForm: FC<{}> = (): ReactElement => {
       importMovie(file).then((responseData) => {
         if (responseData?.payload?.status === 1) {
           needUpdate();
-          setLoading(false);
         }
+        setLoading(false);
       })
     }
   };

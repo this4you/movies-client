@@ -17,6 +17,9 @@ const getErrorTextByMessage = (type: string) => {
         case "AUTHENTICATION_FAILED":
             message = "Authentication faliled! Change your login or email"
             break;
+        case "FORMAT_ERROR":
+            message = "Bad format"
+            break;
         default:
             message = "Unexpected error"
             break;

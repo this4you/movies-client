@@ -33,6 +33,10 @@ const AxiosInterceptorProvider = ({ children }) => {
 
         const resInterceptor = response => {
             processMovieApiError(response);
+            if (response?.data?.error?.code == "WRONG_TOKEN") {
+                localStorage.setItem(AUTH_LOCAL_STORAGE_TOKEN, "");
+                window.location.reload();
+            }
             return response;
         }
 
