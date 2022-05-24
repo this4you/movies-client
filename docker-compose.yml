@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  fronted:
+    build: .
+    restart: always
+    ports:
+      - '3000:3000'
+  api:
+    image: webbylabhub/movies
+    restart: always
+    ports:
+      - '8000:8000'
