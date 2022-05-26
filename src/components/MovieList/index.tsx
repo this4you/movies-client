@@ -1,103 +1,61 @@
 import React, { FC, ReactElement, useEffect, useState } from 'react';
-import { DataGrid, GridColDef, GridSortModel } from '@mui/x-data-grid';
+import { DataGrid, GridSortModel } from '@mui/x-data-grid';
 import "./MovieList.scss"
-import { IconButton, Paper, TextField } from '@mui/material';
-import { Delete } from '@mui/icons-material';
-import { useAppSelector, useMovies } from '../../hooks';
-import { MovieListParams, SortOrder } from '../../api/movieApi';
+import { Paper, TextField } from '@mui/material';
+import { useSearch } from '../../hooks';
+import { SortOrder } from '../../api/movieApi';
 import { useNavigate } from "react-router-dom";
+import useMovieTableColumnsConfig from './useMovieTableColumsConfig';
+import useMovieTableData from './useMovieTableData';
 
-type MovieListProps = {}
-
+const getOrderType = (type: string) => {
+  switch (type) {
+    case 'asc':
+      return SortOrder.ASC;
+    case 'desc':
+      return SortOrder.DESC;
+    default:
+      return '';
+  }
+}
 const defaultSort = 'id';
 const defaultOrder = SortOrder.ASC;
 
-const MovieList: FC<MovieListProps> = (): ReactElement => {
-  const { moviesList, isNeedUpdate, totalCount } = useAppSelector((state) => state.movies);
-  const { fetchMovies, deleteMovie, needUpdate } = useMovies();
-  
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(0);
-  const [search, setSearch] = useState('');
-  const navigate = useNavigate();
-  const [sortParams, setSortParams] = useState({ sort: defaultSort, order: defaultOrder });
-  
-  useEffect(() => {
-    fetchPageMovies();
-  }, [page, sortParams, search]);
+
+
+const MovieList = () => {
+  const { setSearch, activeSearchValue } = useSearch();
+  const [filterParams, setFilterParams] = useState({
+    page: 0,
+    sortParams: { sort: defaultSort, order: defaultOrder }
+  });
+
+  const { moviesList, totalCount, loading, isNeedUpdate } = useMovieTableData(filterParams, activeSearchValue);
 
   useEffect(() => {
-    if (!isNeedUpdate) return;
-
-    if (page) {
-      setPage(0);
-    } else {
-      fetchPageMovies();
-    }
-
-  }, [isNeedUpdate]);
-
-
-  const fetchPageMovies = () => {
-    setLoading(true);
-    const params = {
-      limit: 9,
-      offset: 9 * (page),
-      sort: sortParams.sort,
-      order: sortParams.order
-    } as MovieListParams;
-    if (search) {
-      params.search = search;
-    }
-    fetchMovies(params)
-      .then(() => {
-        setLoading(false);
+    if (isNeedUpdate) {
+      setFilterParams({
+        page: 0,
+        sortParams: { sort: defaultSort, order: defaultOrder }
       });
-  }
-
-  const onDeleteMovie = (id) => {
-    deleteMovie(id).then((responseData) => {
-      if (responseData?.payload?.status === 1) {
-        needUpdate();
-      }
-    });
-  }
-
-  const columns: GridColDef[] = [
-    { field: 'title', headerName: 'Movie name', width: 300 },
-    { field: 'format', type: 'string', headerName: 'Format', width: 200, sortable: false },
-    { field: 'year', type: 'number', headerName: 'Year', width: 100 },
-    {
-      field: 'delete', headerName: '', width: 70, hideSortIcons: true, renderCell: (params) => {
-        return (
-          <IconButton onClick={() => { onDeleteMovie(params.id) }} aria-label="delete">
-            <Delete />
-          </IconButton>
-        );
-      },
     }
-  ];
+  }, [isNeedUpdate])
 
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
+  const columns = useMovieTableColumnsConfig();
+  const navigate = useNavigate();
+
+  const handlePageChange = (page: number) => {
+    setFilterParams({ ...filterParams, page });
   };
 
   const handleSortModelChange = (sortModel: GridSortModel) => {
-    setSortParams({
-      order: getOrderType(sortModel[0]?.sort) || defaultOrder,
-      sort: sortModel[0]?.field || defaultSort
-    })
-  }
-
-  const getOrderType = (type: string) => {
-    switch (type) {
-      case 'asc':
-        return SortOrder.ASC;
-      case 'desc':
-        return SortOrder.DESC;
-      default:
-        return '';
-    }
+    setFilterParams({
+      ...filterParams,
+      sortParams: {
+        order: getOrderType(sortModel[0]?.sort) || defaultOrder,
+        sort: sortModel[0]?.field || defaultSort
+      }
+    });
   }
 
   const handleChangeSearchValue = (event) => {
@@ -107,18 +65,18 @@ const MovieList: FC<MovieListProps> = (): ReactElement => {
     }
   }
 
-  const rowDoubleClickHandler = ({id}) => {
+  const handleRowDoubleClick = ({ id }) => {
     navigate(`${id}`);
   }
 
   return (
-    
+
     <Paper className="movieList-wrap" elevation={10}>
       <TextField id="search-field" onChange={handleChangeSearchValue} className="search-field" label="Search" variant="outlined" />
       <div style={{ height: 600, width: '100%' }}>
         <DataGrid
           disableColumnMenu={true}
-          onRowDoubleClick={rowDoubleClickHandler}
+          onRowDoubleClick={handleRowDoubleClick}
           rows={moviesList}
           columns={columns}
           pageSize={9}
@@ -126,7 +84,7 @@ const MovieList: FC<MovieListProps> = (): ReactElement => {
           hideFooterSelectedRowCount
           onSortModelChange={handleSortModelChange}
           sortingMode='server'
-          page={page}
+          page={filterParams.page}
           paginationMode="server"
           rowCount={totalCount}
           onPageChange={handlePageChange}
